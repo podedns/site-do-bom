@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Sistema de Gerenciamento</title>
+    <link rel="stylesheet" href="style.css">
+    
+       
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <div class="logo">
+                <i class="fas fa-tasks floating"></i>
+                <h1>TaskFlow</h1>
+            </div>
+            
+            <div class="hero-content">
+                <h2>Gerencie suas tarefas de forma simples e eficiente</h2>
+                <p>O TaskFlow é o sistema perfeito para organizar suas atividades diárias, projetos importantes e metas pessoais em um único lugar.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <h3>Segurança em primeiro lugar</h3>
+                            <p>Seus dados protegidos com criptografia avançada</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-sync-alt"></i>
+                        <div>
+                            <h3>Sincronização em tempo real</h3>
+                            <p>Acesse suas tarefas de qualquer dispositivo</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-bell"></i>
+                        <div>
+                            <h3>Lembretes inteligentes</h3>
+                            <p>Nunca mais perca um prazo importante</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <!-- Tela de Login -->
+            <div id="loginScreen" class="screen active">
+                <div class="form-header">
+                    <h2>Bem-vindo de volta!</h2>
+                    <p>Faça login para acessar sua conta</p>
+                </div>
+                
+                <div id="loginMessage" class="message"></div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">E-mail</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="seu@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginSenha">Senha</label>
+                        <div class="password-container">
+                            <input type="password" id="loginSenha" class="form-control" placeholder="Sua senha" required>
+                            <button type="button" class="password-toggle" id="toggleLoginPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                    <button type="button" class="btn btn-secondary" onclick="showScreen('registerScreen')">
+                        Criar nova conta
+                    </button>
+                </form>
+                
+                <div class="link-text">
+                    <a href="#" onclick="showRecovery()">Esqueceu sua senha?</a>
+                </div>
+            </div>
+            
+            <!-- Tela de Cadastro -->
+            <div id="registerScreen" class="screen">
+                <div class="form-header">
+                    <h2>Crie sua conta</h2>
+                    <p>Leva apenas alguns minutos</p>
+                </div>
+                
+                <div id="registerMessage" class="message"></div>
+                
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regNome">Nome completo</label>
+                        <input type="text" id="regNome" class="form-control" placeholder="Seu nome completo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regEmail">E-mail</label>
+                        <input type="email" id="regEmail" class="form-control" placeholder="seu@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regSenha">Senha</label>
+                        <div class="password-container">
+                            <input type="password" id="regSenha" class="form-control" placeholder="Crie uma senha forte" minlength="6" required>
+                            <button type="button" class="password-toggle" id="toggleRegPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regTipo">Tipo de conta</label>
+                        <select id="regTipo" class="form-control" required>
+                            <option value="">Selecione seu perfil</option>
+                            <option value="user">Usuário normal</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <button type="button" class="btn btn-secondary" onclick="showScreen('loginScreen')">
+                        Voltar para login
+                    </button>
+                </form>
+                
+                <div class="link-text">
+                    Ao cadastrar, você concorda com nossos <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a>.
+                </div>
+            </div>
+            
+            <!-- Tela do Dashboard/CRUD -->
+            <div id="crudScreen" class="screen">
+                <div class="dashboard-header">
+                    <div class="user-info">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <div>
+                            <h3 id="userName">Usuário</h3>
+                            <p id="userEmail">usuario@exemplo.com</p>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+                
+                <div class="crud-container">
+                    <div class="crud-header">
+                        <h2>Gerenciar Tarefas</h2>
+                    </div>
+                    
+                    <form id="itemForm">
+                        <input type="hidden" id="itemId">
+                        <div class="form-group">
+                            <label for="itemNome">Nome da Tarefa</label>
+                            <input type="text" id="itemNome" class="form-control" placeholder="Nome da tarefa" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="itemDescricao">Descrição</label>
+                            <textarea id="itemDescricao" class="form-control" placeholder="Detalhes da tarefa" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="itemCategoria">Categoria</label>
+                            <select id="itemCategoria" class="form-control" required>
+                                <option value="">Selecione uma categoria</option>
+                                <option value="trabalho">Trabalho</option>
+                                <option value="pessoal">Pessoal</option>
+                                <option value="estudos">Estudos</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="saveButton">Adicionar Tarefa</button>
+                    </form>
+                    
+                    <div id="crudMessage" class="message"></div>
+                </div>
+                
+                <div class="items-container">
+                    <h2 style="margin-bottom: 20px;">Suas Tarefas</h2>
+                    
+                    <div id="itemsList">
+                        <div class="table-header">
+                            <div>Tarefa</div>
+                            <div>Descrição</div>
+                            <div>Ações</div>
+                        </div>
+                        
+                        <div id="itemsBody">
+                            <!-- Itens serão inseridos aqui via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tela de Recuperação de Senha -->
+            <div id="recoveryScreen" class="screen">
+                <div class="form-header">
+                    <h2>Recuperar Senha</h2>
+                    <p>Digite seu e-mail para redefinir sua senha</p>
+                </div>
+                
+                <div id="recoveryMessage" class="message"></div>
+                
+                <form id="recoveryForm">
+                    <div class="form-group">
+                        <label for="recoveryEmail">E-mail</label>
+                        <input type="email" id="recoveryEmail" class="form-control" placeholder="seu@email.com" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Enviar Link de Recuperação</button>
+                    <button type="button" class="btn btn-secondary" onclick="showScreen('loginScreen')">
+                        Voltar para login
+                    </button>
+                </form>
+                
+                <div class="link-text">
+                    Lembrou sua senha? <a href="#" onclick="showScreen('loginScreen')">Faça login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   <script src="script.js"></script>
+</body>
+</html>
